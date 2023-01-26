@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sismología</title>
+    <!--Directiva que permite reconocer los archivos estaticos en django-->
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="icon" href="{% static 'img/logo.png' %}" />
+    <link href="{% static 'css/estilos.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <style>
+        body{
+            background: url("{% static 'img/fondo.png' %}") no-repeat center;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+
+    
+<script>
+    $(document).ready(function(){
+        $("#chilesismos").click(function(){
+            $.get("https://api.gael.cloud/general/public/sismos", function(data){
+                $.each(data,function(i,item){
+                    $("#sismo").append("<tr><td>" + item.Fecha + "</td><td>" + item.Profundidad +
+                        "</td><td>" + item.Magnitud + "</td><td>" + item.RefGeografica + "</td><td>" + item.FechaUpdate + "</td></tr>");
+                });
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+
+
+
+
+<body>
+    <br>
+    <!--Barra de navegación-->
+    <nav class="navbar navbar-expand-sm navbar-light" style="background: linear-gradient(to right, #80FFDB, #64DFDF, #48BFE3, #5390D9, #5E60CE);">
+        <a href="{% url 'inicio' %}">
+            <img src="{% static 'img/logo.png' %}" alt="logoTurismo" width="30px" height="30px">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'sobrenosotros' %}"><span style="color: black;">¿Quienes somos?</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'galeria' %}"><span style="color: black;">Galeria de fotos</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'formulario' %}"><span style="color: black;">Contactanos</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'calendario' %}"><span style="color: black;">Calendario</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'apisismologia' %}"><span style="color: black;">Sismología</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mostrar' %}"><span style="color: black;">Crear y Mostrar Viajes</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mostrarcliente' %}"><span style="color: black;">Crear y Mostrar Clientes</span></a>
+                </li>
+            </ul>
+            <form class="form-inline mt-2 mt-md-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="¿Qué destino buscas?" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="btnBuscar" style="margin-left: 5px;">Buscar</button>
+            </form>
+            <div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" id="userBookStop">
+                        <img src="{% static 'img/user-vector-icon.png' %}" alt="userBookStop" width="20px">Cerrar Sesion
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <br><br><br>
+
+    <div class="container-fluid py-3" style="font-weight: bold;">
+        <div class="row">
+            <div class="col">
+                <h1>Api de Sismos</h1>
+                <button id="chilesismos">Solicitar Datos de Sismos</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <table class="table" id="sismo">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Profundidad</th>
+                            <th>Magnitud</th>
+                            <th>Referencia Geografica</th>
+                            <th>Fecha de Actualizacion</th>
+
+                            
+                            
+                        </tr>
+
+
+                    </thead>
+
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+   <!--Integrando un pie de pagina-->
+
+<footer style="background-image: linear-gradient(to right, #33c9a8, #00b0b9, #0093c4, #0073c1, #154fa8); font-weight: bold;">
+    <div class="row col-12">
+        <div class="col-lg-2">
+            <img src="{% static 'img/logo.png' %}" style="margin-left: 300px;"  width="250px">
+        </div>
+
+        <div class="col-lg-2" style="margin-left: 500px;">
+            <strong style="color: black;">Síguenos</strong>
+            <br><br>
+            <div class="row">
+                <a href="https://www.facebook.com" target="_blank">
+                    <img src="{% static 'img/facebook.png' %}" width="30px" height="30px" style="margin-left: 15px;"></a>
+                <a href="https://twitter.com/home" target="_blank">
+                    <img src="{% static 'img/twitter.png' %}" width="30px" height="30px" style="margin-left: 10px;"></a>
+                <a href="https://www.instagram.com" target="_blank">
+                    <img src="{% static 'img/Instagram.png' %}" width="30px" height="30px" style="margin-left: 10px;"></a>
+
+            </div>
+        </div>
+
+
+        <div class="col-lg-3" style="margin-left: 100px;">
+
+            <strong style="color: black;">Contacto</strong>
+            <br><br>
+            <div class="row">
+                <img src="{% static 'img/location.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 10px;">
+                <p style="color: black;">Batalla de Chorrillos 420, Maipú</p>
+            </div>
+            <div class="row">
+                <img src="{% static 'img/fono.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 10px;">
+                <p style="color: black;">9 24542088</p>
+            </div>
+            <div class="row">
+                <img src="{% static 'img/email.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 10px;">
+                <p style="color: black;">contacto.turismop@gmail.com</p>
+            </div>
+            <br>
+
+            <p style="color: black;">&copy; Turismo Paradisiaco - 2022</p>
+        </div>
+    </div>
+</footer>
+
+
+    
+</body>
+</html>

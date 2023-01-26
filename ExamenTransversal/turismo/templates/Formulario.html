@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Turismo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    <!--Directiva que permite reconocer los archivos estaticos en django-->
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="icon" href="{% static 'img/logo.png' %}" />
+    <link href="{% static 'css/estilos.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/intlTelInput.css' %}">
+
+    <style>
+        body{
+            background: url("{% static 'img/fondo.png' %}") no-repeat center;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        
+    .error-control{
+    border: 1px solid red;
+    }
+
+    label.error{
+    color: red;
+    width: 300px;
+    font-size: 0.8em;
+    margin-top: -5px;
+    margin-bottom: 10px;
+    }
+
+    </style>
+
+<body>
+
+    <!--Barra de navegación-->
+    <nav class="navbar navbar-expand-sm navbar-light" style="background: linear-gradient(to right, #80FFDB, #64DFDF, #48BFE3, #5390D9, #5E60CE);">
+        <a href="{% url 'inicio' %}">
+            <img src="{% static 'img/logo.png' %}" alt="logoTurismo" width="30px" height="30px">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'sobrenosotros' %}"><span style="color: black;">¿Quienes somos?</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'galeria' %}"><span style="color: black;">Galeria de fotos</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'formulario' %}"><span style="color: black;">Contactanos</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'calendario' %}"><span style="color: black;">Calendario</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'apisismologia' %}"><span style="color: black;">Sismología</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mostrar' %}"><span style="color: black;">Crear y Mostrar Viajes</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mostrarcliente' %}"><span style="color: black;">Crear y Mostrar Clientes</span></a>
+                </li>
+            </ul>
+            <form class="form-inline mt-2 mt-md-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="¿Qué destino buscas?" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="btnBuscar" style="margin-left: 5px;">Buscar</button>
+            </form>
+            <div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" id="userBookStop">
+                        <img src="{% static 'img/user-vector-icon.png' %}" alt="userBookStop" width="20px">Cerrar Sesion
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container-fluid py-3">
+            <header class="mb-4 border-bottom py-3">
+                <br><br>
+                <h1 class="fs-4 py-3">Contacto</h1>
+            </header>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+
+                    <form id="mi-formulario" class="form" method="post" action="" autocomplete="off">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label"> Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required autofocus maxlength="25">
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label"> Apellido:</label>
+                            <input type="text" class="form-control" id="apellido" name="apellido" required maxlength="30">
+
+
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label"> Correo Electrónico:</label>
+                            <input type="email" class="form-control" id="email" name="email" required placeholder="nombre@dominio.com">
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label"> Ingrese su número de teléfono:</label><br>
+                            <input type="tel" class="form-control" id="phone" name="phone">
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="countries" class="form-label"> Seleccione su país:</label>
+                            <select class="form-control" id="countries" name="countries">
+                                
+                            </select>
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="asunto" class="form-label"> Tipo de Asunto:</label>
+                            <select class="form-control" id="asunto" name="asunto">
+
+                                <option class="form-check-option">Consulta</option>
+                                <option class="form-check-option">Problema</option>
+                                <option class="form-check-option">Asistencia Virtual</option>
+                                <option class="form-check-option">Financiamiento</option>
+                                <option class="form-check-option">Apoyo Psicológico</option>
+
+                            </select>
+
+                        </div>
+
+                        <h6 class="genero"> Genero:</h6>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" value="h" id="radio1" name="grupo1">
+                            <label for="radio1" class="form-check-label homre" onmouseover="style.color = 'blue'" onmouseout="style.color = 'black'"> Hombre</label>
+
+
+                        </div>
+                        <br>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" value="m" id="radio1" name="grupo1">
+                            <label for="radio1" class="form-check-label mujer" onmouseover="style.color = 'pink'" onmouseout="style.color = 'black'"> Mujer</label>
+
+
+                        </div>
+                        <br>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" value="o" id="radio1" name="grupo1">
+                            <label for="radio1" class="form-check-label otro" onmouseover="style.color = 'lime'" onmouseout="style.color = 'black'"> Otro</label>
+
+
+                        </div>
+                        <br>
+                        
+                        <div class="mb-3">
+                            
+                            <label for="fecha" class="form-label"> Fecha de nacimiento:</label>
+                            <input type="date" class="form-control" id="fecha" name="fecha" min="1940-01-01" max="2024-01-01">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="mensaje" class="form-label"> Mensaje:</label>
+                            <textarea class="form-control" id="mensaje" name="mensaje" rows="3" placeholder="Escribenos lo que deseas..."></textarea>
+
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" value="" id="radio1" name="grupo1">
+                            <label for="check1" class="form-check-label"> Acepta los términos</label>
+
+
+                        </div>
+                        <br><br>
+                        <button type="submit" name="submit" value="submit" id="btnSubmit" class="btn btn-danger">Enviar</button>
+                        <button type="reset" name="reset" class="btn btn-danger" value="Limpiar">Limpiar</button>
+                        <button type="button" value="Mostrar fecha" id="btnFecha" name="btnFecha" class="btn btn-danger" onclick="MostrarFecha()">Mostrar hora y fecha</button>
+                            <p id="demo"></p>
+                    </form>
+
+
+                 </div>
+
+
+            </div>
+        </div>
+    </main>
+
+
+    <!--Integrando un pie de pagina-->
+<footer style="background-image: linear-gradient(to right, #33c9a8, #00b0b9, #0093c4, #0073c1, #154fa8);">
+    <div class="row col-12">
+        <div class="col-lg-2">
+            <img src="{% static 'img/logo.png' %}" style="margin-left: 300px;"  width="250px">
+        </div>
+
+        <div class="col-lg-2" style="margin-left: 500px;">
+            <strong style="color: black;">Síguenos</strong>
+            <br><br>
+            <div class="row">
+                <a href="https://www.facebook.com" target="_blank">
+                    <img src="{% static 'img/facebook.png' %}" width="30px" height="30px" style="margin-left: 15px;"></a>
+                <a href="https://twitter.com/home" target="_blank">
+                    <img src="{% static 'img/twitter.png' %}" width="30px" height="30px" style="margin-left: 10px;"></a>
+                <a href="https://www.instagram.com" target="_blank">
+                    <img src="{% static 'img/Instagram.png' %}" width="30px" height="30px" style="margin-left: 10px;"></a>
+
+            </div>
+        </div>
+
+
+        <div class="col-lg-3" style="margin-left: 100px;">
+
+            <strong style="color: black;">Contacto</strong>
+            <br><br>
+            <div class="row">
+                <img src="{% static 'img/location.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 10px;">
+                <p style="color: black;">Batalla de Chorrillos 420, Maipú</p>
+            </div>
+            <div class="row">
+                <img src="{% static 'img/fono.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 10px;">
+                <p style="color: black;">9 24542088</p>
+            </div>
+            <div class="row">
+                <img src="{% static 'img/email.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 10px;">
+                <p style="color: black;">contacto.turismop@gmail.com</p>
+            </div>
+            <br>
+
+            <p style="color: black;">&copy; Turismo Paradisiaco - 2022</p>
+        </div>
+    </div>
+</footer>
+    
+
+    <script src="{% static 'js/intlTelInput.js' %}"></script>
+    <script>
+        var input = document.querySelector("#phone");
+        window.intlTelInput(input,{});
+
+    </script>
+
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/function.js' %}"></script>
+    <script>
+
+        function MostrarFecha(){
+            document.getElementById('demo').innerHTML = Date();
+        }
+
+        function Saludo(){
+            alert("Su formulario se a enviado con exito!!");
+        }
+
+    </script>
+     <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+     <script>
+        $(function(){
+            $("#mi-formulario").validate({
+                rules:{
+                    nombre: {
+                        required: true,
+                        nombre: true
+                    },
+                    apellido: {
+                        required: true,
+                        apellido: true
+                    },
+                    email: {
+                        required: true,
+                        email:true
+                    },
+                
+                    fecha: "required"
+
+                },//Rules
+
+                messages:{
+                    nombre: {
+                        required: 'Por favor ingrese su nombre',
+                        nombre: 'Formato de nombre no válido'
+
+                    },
+
+                    apellido: {
+                        required: 'Por favor ingrese su apellido'
+
+                    },
+                    email: {
+                        required: 'Ingrese su correo electrónico: ',
+                        email: 'Formato de correo no válido'
+
+                    },
+
+                    fecha: {
+                        required: 'Seleccione una fecha válida',
+                        min:'Fecha no corresponde'
+
+                    }
+                }
+
+            });
+
+
+
+
+        });
+
+
+    </script>
+</body>
+</html>

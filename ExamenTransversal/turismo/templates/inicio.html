@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turismo Paradisiaco</title>
+    <!--Directiva que permite reconocer los archivos estaticos en django-->
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="icon" href="{% static 'img/logo.png' %}" />
+    <link href="{% static 'css/estilos.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     
+    <style>
+        body{
+            background: url("{% static 'img/fondo.png' %}") no-repeat;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+        
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    
+    
+
+
+</head>
+
+<body>
+
+    <!--Barra de navegación-->
+    <nav class="navbar navbar-expand-sm navbar-light" style="background: linear-gradient(to right, #80FFDB, #64DFDF, #48BFE3, #5390D9, #5E60CE);">
+        <a href="{% url 'inicio' %}">
+            <img src="{% static 'img/logo.png' %}" alt="logoTurismo" width="30px" height="30px">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'sobrenosotros' %}"><span style="color: black;">¿Quienes somos?</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'galeria' %}"><span style="color: black;">Galeria de fotos</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'formulario' %}"><span style="color: black;">Contactanos</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'calendario' %}"><span style="color: black;">Calendario</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'apisismologia' %}"><span style="color: black;">Sismología</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mostrar' %}"><span style="color: black;">Crear y Mostrar Viajes</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mostrarcliente' %}"><span style="color: black;">Crear y Mostrar Clientes</span></a>
+                </li>
+            </ul>
+            <form class="form-inline mt-2 mt-md-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="¿Qué destino buscas?" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="btnBuscar" style="margin-left: 5px;">Buscar</button>
+            </form>
+            <div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" id="userBookStop">
+                        <img src="{% static 'img/user-vector-icon.png' %}" alt="userBookStop" width="20px">Cerrar Sesion
+                    </a>
+                {% else %}
+                <a href="{% url 'login' %}" id="userBookStop">
+                    <img src="{% static 'img/user-vector-icon.png' %}" alt="userBookStop" width="20px">Iniciar sesión
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <br><br>
+    <!--Carrousel-->
+<div class="container py-3">
+    <div id="carousel1" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carousel1" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel1" data-slide-to="1"></li>
+            <li data-target="#carousel1" data-slide-to="2"></li>
+            <li data-target="#carousel1" data-slide-to="3"></li>
+            <li data-target="#carousel1" data-slide-to="4"></li>
+            <li data-target="#carousel1" data-slide-to="5"></li>
+        </ol>
+        <br>
+        <!--Definimos las imagenes dentro del carrusel-->
+        <div class="carousel-inner" style="border-radius: 55px;">
+            <div class="carousel-item active">
+                <img class="carousel d-block" width="1200" height="550" src="{% static 'img/paisajetorres.jpg' %}">
+                <div class="carousel-caption">
+                    <h3>Chile</h3>
+                    <p>Las torres del Paine</p>
+                </div>
+            </div>
+            <!--Segunda imagen del carrusel (no es active)-->
+            <div class="carousel-item">
+                <img class="d-block" width="1200px" height="550px" src="{% static 'img/paisajepuente.jpg' %}">
+                <div class="carousel-caption">
+                    <h3>Budapest</h3>
+                    <p>El puente de cadenas</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img class="d-block" width="1200px" height="550px" src="{% static 'img/paisajetromso.jpg' %}">
+                <div class="carousel-caption">
+                    <h3>Noruega</h3>
+                    <p>Ciudad de Tromso</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img class="d-block" width="1200px" height="550px" src="{% static 'img/paisajeneuquen.jpg' %}">
+                <div class="carousel-caption">
+                    <h3>Argentina</h3>
+                    <p>Provincia de Neuquén</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img class="d-block" width="1200px" height="550px" src="{% static 'img/paisajemoher.jpg' %}">
+                <div class="carousel-caption">
+                    <h3>Irlanda</h3>
+                    <p>Acantilados de Moher</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img class="d-block" width="1200px" height="550px" src="{% static 'img/paisajecaribe.jpg' %}">
+                <div class="carousel-caption">
+                    <h3 style="font-weight: 500; color: black;">El caribe</h3>
+                    <p style="font-weight: 500; color: black;">Playa Pigeon Point</p>
+                </div>
+            </div>
+        </div>
+        <!--Codificamos el desplazamiento de izq a derecha (usa el id que definimos en Carrousel)-->
+        <a class="carousel-control-prev" href="#carousel1" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+
+        </a>
+
+        <a class="carousel-control-next" href="#carousel1" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+
+        </a>
+
+    </div>
+</div>
+
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md text-center">
+            <div class="jumbotron bg-cover" style="background: none;">
+                <h2 class="texto2">Unas vacaciones que no podrás olvidar</h2>
+                <p class="texto2">Las vacaciones que te mereces, tú solo debes decirnos donde quieres vacacionar y nosotros nos encargamos del resto.
+                    La atención mas rapida en servicios de turismo, y con variedad de precios para acomodarse a tu bolsillo. Alojamiento en los hoteles mas reconocidos y recomendados. Te entregaremos el mejor servicio y la mejor experiencia posible.
+                </p>
+                <a href="{% url 'galeria' %}" class="btn btn-danger" style="color: black;">Reservar ahora</a>
+            
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Integrando un pie de pagina-->
+<footer style="background-image: linear-gradient(to right, #33c9a8, #00b0b9, #0093c4, #0073c1, #154fa8);">
+    <div class="row col-12">
+        <div class="col-lg-2">
+            <img src="{% static 'img/logo.png' %}" style="margin-left: 300px;"  width="250px">
+        </div>
+
+        <div class="col-lg-2" style="margin-left: 500px;">
+            <strong style="color: black;">Síguenos</strong>
+            <br><br>
+            <div class="row">
+                <a href="https://www.facebook.com" target="_blank">
+                    <img src="{% static 'img/facebook.png' %}" width="30px" height="30px" style="margin-left: 15px;"></a>
+                <a href="https://twitter.com/home" target="_blank">
+                    <img src="{% static 'img/twitter.png' %}" width="30px" height="30px" style="margin-left: 10px;"></a>
+                <a href="https://www.instagram.com" target="_blank">
+                    <img src="{% static 'img/Instagram.png' %}" width="30px" height="30px" style="margin-left: 10px;"></a>
+
+            </div>
+        </div>
+
+
+        <div class="col-lg-3" style="margin-left: 100px;">
+
+            <strong style="color: black;">Contacto</strong>
+            <br><br>
+            <div class="row">
+                <img src="{% static 'img/location.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 10px;">
+                <p style="color: black;">Batalla de Chorrillos 420, Maipú</p>
+            </div>
+            <div class="row">
+                <img src="{% static 'img/fono.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 10px;">
+                <p style="color: black;">9 24542088</p>
+            </div>
+            <div class="row">
+                <img src="{% static 'img/email.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 10px;">
+                <p style="color: black;">contacto.turismop@gmail.com</p>
+            </div>
+            <br>
+
+            <p style="color: black;">&copy; Turismo Paradisiaco - 2022</p>
+        </div>
+    </div>
+</footer>
+
+    <!-- script que permite mostrar/ocultar navbar haciendo scroll -->
+    <script type="text/javascript">
+        let ubicacionInicial = window.pageYOffset;
+        window.onscroll = function () {
+            let ubicacionPosterior = window.pageYOffset;
+            if (ubicacionInicial >= ubicacionPosterior) {
+                document.getElementById("Navbar").style.top = "0";
+            }
+            else {
+                document.getElementById("Navbar").style.top = "-70px";
+            }
+            ubicacionInicial = ubicacionPosterior
+        }
+    </script>
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/validacion.js' %}"></script>
+
+</html>
